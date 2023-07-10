@@ -21,12 +21,12 @@ export default function UserAvatar({
   children,
 }: Props) {
   const avatarImage =
-    avatar ?? `https://avatars.dicebear.com/api/${api}/${username.replace(/[^a-z0-9]+/i, '-')}.svg`
+    avatar ?? `https://pbs.twimg.com/profile_images/1633213881823772673/nWE9IOPh_400x400.jpg`
 
   return (
     <div className={className}>
       <img
-        src={avatarImage}
+        src={avatar}
         alt={username}
         className="rounded-full block h-auto w-full max-w-full bg-gray-100 dark:bg-slate-800"
       />
