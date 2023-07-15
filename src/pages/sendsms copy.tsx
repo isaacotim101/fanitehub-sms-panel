@@ -43,23 +43,26 @@ const FormsPage = () => {
         <SectionTitleLineWithButton icon={mdiBallotOutline} title="Send Bulk Sms" main />
 
         <CardBox>
-          <Formik
-            initialValues={{ email: '', password: '' }}
-            onSubmit={(values) => handleSubmit(values)}
-          >
+          <Formik initialValues={{ smsid: '', phone: '', message: '' }} onSubmit={handleSubmit}>
             <Form>
-              <FormField label="Email" help="Please enter your Email">
-                <Field name="email" type="email" id="email"  />
+              <FormField label="SmsId" icons={[mdiAccount, mdiMail]}>
+                <Field name="smsid" placeholder="smsid" />
               </FormField>
-              
-              <FormField label="Password" help="Please enter your password">
-                <Field type="password" id="password" name="password" />
+              <FormField label="Number(s)" hasTextareaHeight>
+                <Field as="textarea" name="phone" placeholder="Phone" id="phone" />
               </FormField>
+
+              <Divider />
+
+              <FormField label="Message" hasTextareaHeight>
+                <Field name="message" as="textarea" placeholder="Your message here" />
+              </FormField>
+
               <Divider />
 
               <Buttons>
-                <Button type="submit" label="Login" color="success" />
-                <Button href="/signup" label="Register" color="warning" outline />
+                <Button type="submit" color="info" label="Submit" />
+                <Button type="reset" color="info" outline label="Reset" />
               </Buttons>
             </Form>
           </Formik>

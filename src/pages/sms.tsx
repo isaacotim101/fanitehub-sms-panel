@@ -1,19 +1,20 @@
-import { mdiAccount, mdiBallotOutline, mdiMail } from '@mdi/js';
-import { Field, Form, Formik } from 'formik';
+import React from 'react';
+import { useRouter } from 'next/router';
+import axios from 'axios';
+import { Formik, Form, Field } from 'formik';
 import Head from 'next/head';
-import { ReactElement } from 'react';
 import Button from '../components/Button';
+import CardBox from '../components/CardBox';
+import SectionFullScreen from '../components/Section/FullScreen';
+import LayoutGuest from '../layouts/Guest';
+import { getPageTitle } from '../config';
 import Buttons from '../components/Buttons';
 import Divider from '../components/Divider';
-import CardBox from '../components/CardBox';
 import FormField from '../components/Form/Field';
-import LayoutAuthenticated from '../layouts/Authenticated';
-import SectionMain from '../components/Section/Main';
-import SectionTitleLineWithButton from '../components/Section/TitleLineWithButton';
-import { getPageTitle } from '../config';
-import axios from 'axios';
+import { mdiAccount, mdiBallotOutline, mdiMail } from '@mdi/js';
+export default function Error() {
+  const router = useRouter();
 
-const FormsPage = () => {
   const handleSubmit = (values) => {
     const headers = {
       'Access-Control-Allow-Origin': '*',
@@ -32,18 +33,17 @@ const FormsPage = () => {
         // Handle the error appropriately
       });
   };
+  
 
   return (
     <>
       <Head>
-        <title>{getPageTitle('Send Bulk Sms')}</title>
+        <title>{getPageTitle('Login')}</title>
       </Head>
 
-      <SectionMain>
-        <SectionTitleLineWithButton icon={mdiBallotOutline} title="Send Bulk Sms" main />
-
-        <CardBox>
-          <Formik
+      <SectionFullScreen bg="purplePink">
+        <CardBox className="w-11/12 md:w-7/12 lg:w-6/12 xl:w-4/12 shadow-2xl">
+        <Formik
             initialValues={{ email: '', password: '' }}
             onSubmit={(values) => handleSubmit(values)}
           >
@@ -64,13 +64,11 @@ const FormsPage = () => {
             </Form>
           </Formik>
         </CardBox>
-      </SectionMain>
+      </SectionFullScreen>
     </>
   );
-};
+}
 
-FormsPage.getLayout = function getLayout(page: ReactElement) {
-  return <LayoutAuthenticated>{page}</LayoutAuthenticated>;
+Error.getLayout = function getLayout(page) {
+  return <LayoutGuest>{page}</LayoutGuest>;
 };
-
-export default FormsPage;
