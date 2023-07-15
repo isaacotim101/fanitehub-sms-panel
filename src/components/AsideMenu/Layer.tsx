@@ -5,7 +5,8 @@ import AsideMenuItem from './Item'
 import AsideMenuList from './List'
 import { MenuAsideItem } from '../../interfaces'
 import { useAppSelector } from '../../stores/hooks'
-
+import { useRouter } from 'next/router'
+import Logo from '../../components/logo.png'
 type Props = {
   menu: MenuAsideItem[]
   className?: string
@@ -58,7 +59,7 @@ export default function AsideMenuLayer({ menu, className = '', ...props }: Props
           <AsideMenuList menu={menu} />
         </div>
         <ul>
-          <AsideMenuItem item={logoutItem} />
+            <AsideMenuItem item={logoutItem}/>
         </ul>
       </div>
     </aside>

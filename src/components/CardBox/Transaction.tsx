@@ -34,18 +34,21 @@ const CardBoxTransaction = (props: Props) => {
     <CardBox className="mb-6 last:mb-0">
       <div className="flex flex-col md:flex-row items-center justify-between">
         <div className="flex flex-col md:flex-row items-center justify-start mb-6 md:mb-0">
-          <IconRounded icon={icon} color={typeColor()} className="md:mr-6 mb-6 md:mb-0" />
           <div className="text-center space-y-1 md:text-left md:mr-6">
-            <h4 className="text-xl">${props.transaction.amount}</h4>
+            <h4 className="text-xl">Ugx {props.transaction.charge} /=</h4>
+          <p className="text-sm text-gray-500">Number of Sent SMS: <b>{props.transaction.charge / 45}</b></p>
             <p className="text-gray-500 dark:text-slate-400">
-              <b>{props.transaction.date}</b> via {props.transaction.business}
+              <b>{props.transaction.senderid}</b>
+            </p>
+            <p className="text-gray-500 dark:text-slate-400">
+              {props.transaction.msg}
             </p>
           </div>
         </div>
         <div className="text-center md:text-right space-y-2">
-          <p className="text-sm text-gray-500">{props.transaction.name}</p>
+          <p className="text-sm text-gray-500">{props.transaction.created_at}</p>
           <div>
-            <PillTag color={typeColor()} label={props.transaction.type} small />
+            <PillTag color={'success'} label="Sent" small />
           </div>
         </div>
       </div>

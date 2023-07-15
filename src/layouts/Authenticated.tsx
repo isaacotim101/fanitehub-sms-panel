@@ -21,38 +21,62 @@ type Props = {
 export default function LayoutAuthenticated({ children }: Props) {
   const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    dispatch(
-      setUser({
-        name: 'John Doe',
-        email: 'john@example.com',
-        avatar:
-          'https://avatars.dicebear.com/api/avataaars/example.svg?options[top][]=shortHair&options[accessoriesChance]=93',
-      })
-    )
-  })
-
   const darkMode = useAppSelector((state) => state.style.darkMode)
 
   const [isAsideMobileExpanded, setIsAsideMobileExpanded] = useState(false)
   const [isAsideLgActive, setIsAsideLgActive] = useState(false)
 
   const router = useRouter()
+  const [isToken, setToken] = useState('');
+
+  const [fullnames, setFullnames] = useState('');
+  const [mail, setMail] = useState('');
+  const [marchantId, setMarchantId] = useState('');
 
   useEffect(() => {
-    const handleRouteChangeStart = () => {
-      setIsAsideMobileExpanded(false)
-      setIsAsideLgActive(false)
+    const storedUserData = JSON.parse(localStorage.getItem("userData"));
+    if (!storedUserData || !storedUserData.user) {
+      router.push('/login');
+      return;
     }
-
-    router.events.on('routeChangeStart', handleRouteChangeStart)
-
-    // If the component is unmounted, unsubscribe
-    // from the event with the `off` method:
-    return () => {
-      router.events.off('routeChangeStart', handleRouteChangeStart)
+    if (storedUserData && storedUserData.user) {
+      const storedName = storedUserData.user.displayName;
+      const storedEmail = storedUserData.user.email;
+      const storedMarchant = storedUserData.user.marchantId;
+  
+      setToken(storedUserData.token);
+      setFullnames(storedName);
+      setMail(storedEmail);
+      setMarchantId(storedMarchant);
+  
+      //console.log("isToken", isToken);
+      //console.log("fullnames", storedName, "email", storedEmail, "MarchantId", storedMarchant);
+  
+      const handleRouteChangeStart = () => {
+        setIsAsideMobileExpanded(false);
+        setIsAsideLgActive(false);
+      };
+  
+      dispatch(
+        setUser({
+          name: storedName,
+          email: storedEmail,
+          avatar:
+            'https://avatars.dicebear.com/api/avataaars/example.svg?options[top][]=shortHair&options[accessoriesChance]=93',
+        })
+      );
+  
+      router.events.on('routeChangeStart', handleRouteChangeStart);
+  
+      // If the component is unmounted, unsubscribe
+      // from the event with the `off` method:
+      return () => {
+        router.events.off('routeChangeStart', handleRouteChangeStart);
+      };
     }
-  }, [router.events, dispatch])
+  }, [router.events, dispatch, isToken, setToken, setFullnames, setMail]);
+  
+
 
   const layoutAsidePadding = 'xl:pl-60'
 
@@ -79,20 +103,7 @@ export default function LayoutAuthenticated({ children }: Props) {
           >
             <Icon path={mdiMenu} size="24" />
           </NavBarItemPlain>
-          <NavBarItemPlain useMargin>
-            <Formik
-              initialValues={{
-                search: '',
-              }}
-              onSubmit={(values) => alert(JSON.stringify(values, null, 2))}
-            >
-              <Form>
-                <FormField isBorderless isTransparent>
-                  <Field name="search" placeholder="Search" />
-                </FormField>
-              </Form>
-            </Formik>
-          </NavBarItemPlain>
+          
         </NavBar>
         <AsideMenu
           isAsideMobileExpanded={isAsideMobileExpanded}
@@ -101,17 +112,6 @@ export default function LayoutAuthenticated({ children }: Props) {
           onAsideLgClose={() => setIsAsideLgActive(false)}
         />
         {children}
-        <FooterBar>
-          Get more with{` `}
-          <a
-            href="https://tailwind-react.justboil.me/dashboard"
-            target="_blank"
-            rel="noreferrer"
-            className="text-blue-600"
-          >
-            Premium version
-          </a>
-        </FooterBar>
       </div>
     </div>
   )

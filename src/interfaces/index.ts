@@ -47,13 +47,13 @@ export type TrendType = 'up' | 'down' | 'success' | 'danger' | 'warning' | 'info
 export type TransactionType = 'withdraw' | 'deposit' | 'invoice' | 'payment'
 
 export type Transaction = {
-  id: number
-  amount: number
-  account: string
-  name: string
-  date: string
-  type: TransactionType
-  business: string
+  _id: number
+  charge: number
+  msg: string
+  senderid: string
+  numbers: string
+  status: string
+  created_at: string
 }
 
 export type Client = {
